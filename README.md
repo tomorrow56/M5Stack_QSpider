@@ -1,7 +1,7 @@
 # M5Stack_QSpider
 
 ### Quadruped Spider Robot for M5Stack
-![Body](img/IMG20210905143324.jpg)
+![Body](img/body2.jpg)
 
 ### Controllable with Web Interface
 ![Controller](img/WebController.jpg)
