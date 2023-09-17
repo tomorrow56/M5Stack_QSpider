@@ -12,3 +12,8 @@
 Body is designed by Fusion360
 ![Design](img/Fusion360.PNG)
  
+### Controller for ESP-NOW mode(M5AtomPad)
+https://github.com/tomorrow56/M5AtomPad
+
+### Protopedia
+https://protopedia.net/prototype/2464
