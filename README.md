@@ -13,7 +13,7 @@ Body is designed by Fusion360
 ![Design](img/Fusion360.PNG)
  
 ### Controller for ESP-NOW mode(M5AtomPad)
-![M5AtomPad](https://github.com/tomorrow56/Walking_NES/blob/main/img/Controller.jpg}
+![M5AtomPad](https://github.com/tomorrow56/Walking_NES/blob/main/img/Controller.jpg)
 
 https://github.com/tomorrow56/M5AtomPad
 
