@@ -32,8 +32,7 @@ The circuit diagram and Gerber data have been published below for public access.
 
 <https://github.com/tomorrow56/M5Stack_Servo_Driver>
 
-### Parts needed (excluding 3D print parts) 必要な部品 (3Dプリント部品以外) 
-
+### Parts needed (excluding 3D print parts)
 * M5Stack Basic x 1
 * [SG-90](https://akizukidenshi.com/catalog/g/gM-08761/) X 9
 * [Battery Holder for 4x AA](https://akizukidenshi.com/catalog/g/gP-03087/) (For servo power)
@@ -42,7 +41,7 @@ The circuit diagram and Gerber data have been published below for public access.
 * M2x8mm Tapping Screws (Approximately 40)
 * Wiring Lead for connections
 
-
+### 必要な部品 (3Dプリント部品以外) 
 * M5Stack Basic x 1
 * [SG-90](https://akizukidenshi.com/catalog/g/gM-08761/) X 9
 * [電池ボックス単4×4本](https://akizukidenshi.com/catalog/g/gP-03087/) (サーボ電源用)
