@@ -38,9 +38,9 @@ Controllable with Web Interface
 ![Controller](img/WebController.png)
 
 Controller for ESP-NOW mode: 専用Controllerは以下にあります。
-![M5AtomPad](https://github.com/tomorrow56/Walking_NES/blob/main/img/Controller.jpg)
+![M5AtomPad](img/controller.jpg)
 
-https://github.com/tomorrow56/M5AtomPad
+<https://github.com/tomorrow56/M5AtomPad>
 
 ### Protopedia
-https://protopedia.net/prototype/2464
+<https://protopedia.net/prototype/2464>
