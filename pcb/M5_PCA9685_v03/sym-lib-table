@@ -1,0 +1,6 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "M5_PCA9685_v02-rescue") (type "Legacy") (uri "${KIPRJMOD}/M5_PCA9685_v03-rescue.lib") (options "") (descr ""))
+	(lib (name "m-bus") (type "KiCad") (uri "${KIPRJMOD}/lib/m-bus.kicad_sym") (options "") (descr ""))
+	(lib (name "sliede_sw_01") (type "KiCad") (uri "${KIPRJMOD}/lib/sliede_sw_01.kicad_sym") (options "") (descr ""))
+)

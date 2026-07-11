@@ -1,2 +1,8 @@
 
 .DS_Store
+
+# Mac resource forks
+._*
+
+# Draft articles
+draft_transistor_gijutsu.md
