@@ -25,12 +25,16 @@ The fully assembled main body and each leg (two types, diagonal combinations) is
 
 [STEP Data](3dprint/step)
 
-### M5Stack Servo Driver Module M5Stack用サーボモジュール基板 
-The circuit diagram and Gerber data have been published below for public access.
+### M5Stack Servo Driver Module M5Stack用サーボモジュール基板
+The circuit diagram, Gerber data, and KiCad design files have been published in this repository under the `pcb/` folder.
 
-回路図とガーバーデータは以下で公開しています。
+回路図、ガーバーデータ、KiCadの設計データは本リポジトリの `pcb/` フォルダ以下で公開しています。
 
-<https://github.com/tomorrow56/M5Stack_Servo_Driver>
+[PCB Design Data](pcb/M5_PCA9685_v03/)
+
+Production outputs (Gerber, BOM, pick-and-place) are available in `pcb/production/`.
+
+生産用データ（ガーバーやBOM、実装座標）も `pcb/production/` に用意しています。
 
 ### Parts needed (excluding 3D print parts)
 * M5Stack Basic x 1
