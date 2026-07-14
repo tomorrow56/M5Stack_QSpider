@@ -1,5 +1,5 @@
-#ifndef _duke32_h_
-#define _duke32_h_
+#ifndef _wifi_setup_h_
+#define _wifi_setup_h_
 
 /********************************
 * for Wifi Connection
@@ -9,7 +9,6 @@
 #include <DNSServer.h>
 // https://github.com/zhouhan0126/WebServer-esp32
 #include <WebServer.h>
-#include <ESPmDNS.h>
 // https://github.com/zhouhan0126/WIFIMANAGER-ESP32
 #include "WiFiManager.h"
 

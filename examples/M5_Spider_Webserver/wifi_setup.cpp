@@ -1,4 +1,5 @@
-#include "duke32.h"
+#include "wifi_setup.h"
+#include "esp_chip_info.h"
 
 /********************************
 * for Wifi Connection
@@ -11,7 +12,7 @@ void AddFeatureString(String &S, const String F){
 
 uint64_t GetChipid(){
   // Chip Info
-  const char* ModelStrings[] PROGMEM = {"", "ESP32"};
+  const char* const ModelStrings[] = {"", "ESP32"};
   uint64_t chipid;
   // Get Chip Information
   esp_chip_info_t chip_info;

@@ -1,10 +1,33 @@
-#ifndef _CLAPPY_AVATOR_H_
-#define _CLAPPY_AVATOR_H_
+#ifndef _AVATAR_H_
+#define _AVATAR_H_
 
-#include <M5Stack.h>
+#include <M5Unified.h>
 
 #define PRIMARY_COLOR WHITE
-#define SECONDARY_COLOR RED
+#define SECONDARY_COLOR BLACK
+
+/*
+#define BLACK    0x0000
+#define NAVY      0x000F
+#define DARKGREEN 0x03E0
+#define DARKCYAN    0x03EF
+#define MAROON    0x7800
+#define PURPLE    0x780F
+#define OLIVE   0x7BE0
+#define LIGHTGREY   0xC618
+#define DARKGREY    0x7BEF
+#define BLUE      0x001F
+#define GREEN   0x07E0
+#define CYAN      0x07FF
+#define RED     0xF800
+#define MAGENTA   0xF81F
+#define YELLOW    0xFFE0
+#define WHITE   0xFFFF
+#define ORANGE    0xFD20
+#define GREENYELLOW 0xAFE5
+#define PINK      0xF81F
+https://ee-programming-notepad.blogspot.com/2016/10/16-bit-color-generator-picker.html
+*/
 
 class Mouth
 {
@@ -54,10 +77,10 @@ public:
   Eye();
   Eye(int x, int y, int r, uint32_t primaryColor, uint32_t secondaryColor);
 
-  void open(boolean isOpen);
+  void open(bool isOpen);
 };
 
-class Avator
+class Avatar
 {
 private:
   Mouth mouth;
@@ -65,10 +88,10 @@ private:
   Eye eyeL;
 public:
   // constructor
-  Avator(void);
+  Avatar(void);
 
   void openMouth(int percent);
-  void openEye(boolean isOpen);
+  void openEye(bool isOpen);
   void smile();
   void init();
 };

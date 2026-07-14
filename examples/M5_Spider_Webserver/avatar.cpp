@@ -1,5 +1,5 @@
-#include <M5Stack.h>
-#include "clappyavator.h"
+#include <M5Unified.h>
+#include "avatar.h"
 
 // Mouth
 Mouth::Mouth(void)
@@ -25,15 +25,15 @@ Mouth::Mouth(int x, int y, int minWidth, int maxWidth, int minHeight, int maxHei
 }
 void Mouth::clear()
 {
-  M5.Lcd.fillRect(lastX, lastY, lastW, lastH, secondaryColor);
-  M5.Lcd.fillRect(lastX, lastY2, lastW, lastH, secondaryColor);
+  M5.Display.fillRect(lastX, lastY, lastW, lastH, secondaryColor);
+  M5.Display.fillRect(lastX, lastY2, lastW, lastH, secondaryColor);
 }
 void Mouth::draw(int x, int y, int w, int h, int percent)
 {
   int y2 = y + (30 * percent / 100) + (h + 2);
   clear();
-  M5.Lcd.fillRect(x, y, w, h, primaryColor);
-  M5.Lcd.fillRect(x, y2, w, h, primaryColor);
+  M5.Display.fillRect(x, y, w, h, primaryColor);
+  M5.Display.fillRect(x, y2, w, h, primaryColor);
   lastX = x;
   lastY = y;
   lastW = w;
@@ -70,13 +70,13 @@ Eye::Eye(int x, int y, int r, uint32_t primaryColor, uint32_t secondaryColor)
 }
 void Eye::clear()
 {
-  M5.Lcd.fillRect(lastX - lastR - 2 , lastY - lastR - 2,
-                  lastR * 2 + 4, lastR * 2 + 4, secondaryColor);
+  M5.Display.fillRect(lastX - lastR - 2 , lastY - lastR - 2,
+                     lastR * 2 + 4, lastR * 2 + 4, secondaryColor);
 }
 void Eye::drawCircle(int x, int y, int r)
 {
   clear();
-  M5.Lcd.fillCircle(x, y, r, primaryColor);
+  M5.Display.fillCircle(x, y, r, primaryColor);
   lastX = x;
   lastY = y;
   lastR = r;
@@ -84,18 +84,18 @@ void Eye::drawCircle(int x, int y, int r)
 void Eye::drawRect(int x, int y, int w, int h)
 {
   clear();
-  M5.Lcd.fillRect(x, y, w, h, primaryColor);
+  M5.Display.fillRect(x, y, w, h, primaryColor);
   lastX = x + w / 2;
   lastY = y + h / 2;
   lastR = w / 2; // TODO: ellipse
 }
-void Eye::open(boolean isOpen)
+void Eye::open(bool isOpen)
 {
   if (isOpen)
   {
     // TODO: "wideness"
     drawCircle(x, y, r);
-    M5.Lcd.fillCircle(x, y, r/2, BLACK);
+    M5.Display.fillCircle(x, y, r/2, BLACK);
   }
   else
   {
@@ -107,28 +107,28 @@ void Eye::open(boolean isOpen)
   }
 }
 
-Avator::Avator()
+Avatar::Avatar()
 {
-  this->mouth = Mouth(160, 180, 40, 90, 4, 80, PRIMARY_COLOR, SECONDARY_COLOR);
-  this->eyeR = Eye(112, 90, 30, PRIMARY_COLOR, SECONDARY_COLOR);
-  this->eyeL = Eye(208, 90, 30, PRIMARY_COLOR, SECONDARY_COLOR);
+  this->mouth = Mouth(160, 180, 40, 90, 4, 60, PRIMARY_COLOR, SECONDARY_COLOR);
+  this->eyeR = Eye(90, 100, 40, PRIMARY_COLOR, SECONDARY_COLOR);
+  this->eyeL = Eye(230, 100, 40, PRIMARY_COLOR, SECONDARY_COLOR);
 }
-void Avator::openMouth(int percent)
+void Avatar::openMouth(int percent)
 {
   mouth.open(percent);
 }
-void Avator::openEye(boolean isOpen)
+void Avatar::openEye(bool isOpen)
 {
   eyeR.open(isOpen);
   eyeL.open(isOpen);
 }
-void Avator::smile()
+void Avatar::smile()
 {
   // TODO
 }
-void Avator::init()
+void Avatar::init()
 {
-  mouth.open(0);
+  //mouth.open(0);
   eyeR.open(true);
   eyeL.open(true);
   // TODO: start animation

@@ -21,7 +21,7 @@ This folder contains Arduino sketches for controlling the M5Stack Q-Spider quadr
 - **SG-90** or compatible 9g servos × 9
 - **PCA9685** servo driver module (I2C address: `0x72`)
 - Arduino IDE with the following libraries / 以下のライブラリが必要です:
-  - `M5Stack`
+  - `M5Stack` / `M5Unified`
   - `Adafruit PWM Servo Driver Library` (for PCA9685)
   - `M5StackUpdater`
 
@@ -71,31 +71,8 @@ This sketch starts the M5Stack as a WiFi access point or connects to an existing
 
 - `M5_Spider_Webserver.ino` : Main sketch / メインスケッチ
 - `WebPage.h` : HTML for the web controller / WebコントローラのHTML
-- `WiFiManager.cpp/h` : WiFi connection helper / WiFi接続ヘルパー
-- `clappyavator.cpp/h` : Face animation class / 顔アニメーションクラス
-- `ip5306.h` : Battery and charging status / バッテリ・充電状態
-
----
-
-## M5_Spider_Webserver_task
-
-This version is similar to `M5_Spider_Webserver`, but splits the web server handling and the face animation into separate FreeRTOS tasks running on different CPU cores.
-
-`M5_Spider_Webserver`とほぼ同じですが、Webサーバ処理と顔アニメーションを異なるCPUコアで動作するFreeRTOSタスクに分けています。
-
-### Features / 機能
-
-- Web UI control (same as `M5_Spider_Webserver`)
-- FreeRTOS multitasking:
-  - `avatorUpdate` runs on Core 0 / `avatorUpdate` をCore 0で実行
-  - `webPage` runs on Core 1 / `webPage` をCore 1で実行
-  - Main `loop()` only handles OTA updates / メイン`loop()`はOTA更新のみ処理
-
-### How to Use / 使い方
-
-Same as `M5_Spider_Webserver`.
-
-`M5_Spider_Webserver`と同様です。
+- `wifi_setup.cpp/h` : WiFi connection helper and OTA setup / WiFi接続とOTAのヘルパー
+- `avatar.cpp/h` : Face animation class / 顔アニメーションクラス
 
 ---
 

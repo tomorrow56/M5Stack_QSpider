@@ -1,15 +1,12 @@
-#include <M5Stack.h>
-#include "M5StackUpdater.h"
-#include "ip5306.h"
+#include <M5Unified.h>
 
 #include <NESpad.h>
 #include <esp_now.h>
 #include <WiFi.h>
 
 #include <Adafruit_PWMServoDriver.h>
-#include "clappyavator.h"
+#include "avatar.h"
 
-//#define chgDET
 #define DEBUG
 
 /********************
@@ -45,11 +42,9 @@ boolean sending = false;
 *********************************/
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x72);
 
-const uint8_t motorInterval = 30;  //[ms]
-
 // Published values for SG90 servos; 0-180 deg
-int minUs = 500;
-int maxUs = 2400;
+const int minUs = 500;
+const int maxUs = 2400;
 
 // Servo assign to each channel
 #define FR0 0   // knees
@@ -79,14 +74,11 @@ uint8_t CENT_RL1 = 90;   // leg backword --
 
 uint8_t CENT_TILT = 90; // up --
 
-#define ROTATEIN  40
-#define ROTATEOUT  150
+const int stp = 3;
+const int smooth = 5;
 
-int stp = 3;
-int smooth = 5;
-
-int stepInterval = 50;
-int stepIntervalTurn = 100;
+const int stepInterval = 50;
+const int stepIntervalTurn = 100;
 
 boolean moveFlag = false;
 boolean walkFwdFlag = false;
@@ -98,22 +90,23 @@ boolean spinRightFlag = false;
 
 //String Face = "/GALLERY/KumaMCN.jpg";
 
-Avator *avator;
+Avatar *avatar;
+TaskHandle_t avatarTaskHandle = NULL;
 
 /************************************
- * Update Avator Task
+ * Update Avatar Task
  ************************************/
-void avatorUpdate(void* arg) {
+void avatarUpdate(void* arg) {
   int cnt = 0;
   while (1) {
     if(cnt == 0){
-      //avator->openMouth(15);
+      //avatar->openMouth(15);
     }
     if (cnt % 100 == 97){
-      avator->openEye(false);
+      avatar->openEye(false);
     }
     if (cnt % 100 == 0){
-      avator->openEye(true);
+      avatar->openEye(true);
       cnt = random(100);
     }
     cnt++;
@@ -122,7 +115,8 @@ void avatorUpdate(void* arg) {
 }
 
 // 受信コールバック
-void OnDataRecv(const uint8_t *mac_addr, const uint8_t *data, int data_len) {
+void OnDataRecv(const esp_now_recv_info_t *recv_info, const uint8_t *data, int data_len) {
+  const uint8_t *mac_addr = recv_info->src_addr;
   char macStr[18];
   snprintf(macStr, sizeof(macStr), "%02X:%02X:%02X:%02X:%02X:%02X",
            mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
@@ -134,7 +128,7 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *data, int data_len) {
   }
   Serial.println("");
 
-// 送信元でフィルタ
+// 送信元でフィルタ(ESP-NOW送信機のMACアドレスを指定)
   if((String)macStr == "4C:75:25:C6:F8:0C" || (String)macStr == "D8:A0:1D:5B:D1:AC"){
     if(data[0] == rNES_A){
       Serial.println("NES_A");
@@ -189,20 +183,12 @@ void OnDataRecv(const uint8_t *mac_addr, const uint8_t *data, int data_len) {
  * Arduino block
  ************************************/
 void setup() {
-  // M5Stack::begin(LCDEnable, SDEnable, SerialEnable, I2CEnable);
-  M5.begin(true, true, true, true);
-  M5.Power.begin();
-  M5.Power.setVinMaxCurrent(CURRENT_400MA);
+  auto cfg = M5.config();
+  M5.begin(cfg);
 
-  M5.Speaker.begin();
-  M5.Speaker.mute();
+  // Mute speaker
+  M5.Speaker.setVolume(0);
   M5.Speaker.end();
-
-  if(digitalRead(BUTTON_A_PIN) == 0) {
-    Serial.println("Will Load menu binary");
-    updateFromFS(SD);
-    ESP.restart();
-  }
 
   Serial.println("M5Stack Q-Spider esp-now");
   Serial.printf("NES mode: %d\n", modeNES);
@@ -239,22 +225,15 @@ void setup() {
 
   Serial.println("Ready");
 
-  avator = new Avator();
-  M5.Lcd.fillScreen(SECONDARY_COLOR);
-//  M5.Lcd.drawJpgFile(SD, Face.c_str(), 0, 0, 320, 240);
-  avator->init();
+  avatar = new Avatar();
+  M5.Display.fillScreen(SECONDARY_COLOR);
+  avatar->init();
 
 /*
  * Demo action
  */
 //  servoDemo();
   servoHome();
-
-  #ifdef chgDET
-    if(getChargeEnable()){
-      adjMode();
-    }
-  #endif
 
   walkStop();
 
@@ -274,7 +253,7 @@ void setup() {
   // xTaskCreatePinnedToCore(タスクの関数名,"タスク名",スタックメモリサイズ,NULL,タスク優先順位,タスクハンドルポインタ,Core ID);
   // xTaskCreatePinnedToCore(func,"name",Stuck size,NULL,priority,Task pointer,Core ID)
   // Core ID: 0 or 1 or tskNO_AFFINITY
-  xTaskCreatePinnedToCore(avatorUpdate, "Task0", 4096, NULL, 1, NULL, 0);
+  xTaskCreatePinnedToCore(avatarUpdate, "Task0", 4096, NULL, 1, &avatarTaskHandle, 0);
 }
 
 void loop(){
@@ -285,7 +264,7 @@ void loop(){
       walkFwdInit();
       moveFlag = true;
     }
-    stepFoward();
+    stepForward();
   }
 
   if(walkBckFlag == true){
@@ -326,6 +305,11 @@ void loop(){
       moveFlag = true;
     }
     stepSpinRight();
+  }
+
+  if(M5.BtnB.wasPressed()){
+    walkStop();
+    adjMode();
   }
 
 }
@@ -414,7 +398,7 @@ void walkFwdInit(){
   moveServo(RL0, -70);
 }
 
-void stepFoward(){
+void stepForward(){
   moveServo(FL0, -50);
   moveServo(RR0, -50);
   delay(stepInterval);
@@ -684,25 +668,22 @@ void stepSpinRight(){
  ************************************/
 // all knees angle
 void servoKneesAll(int ang){
-  int i = (-1 * ang);
-  moveServo(FR0, i);
-  moveServo(FL0, i);
-  moveServo(RR0, i);
-  moveServo(RL0, i);
+  moveServo(FR0, -ang);
+  moveServo(FL0, -ang);
+  moveServo(RR0, -ang);
+  moveServo(RL0, -ang);
 }
 
 // front leg angle
 void servoLegFront(int ang){
-  int i = ang;
-  moveServo(FR1, i);
-  moveServo(FL1, i);
+  moveServo(FR1, ang);
+  moveServo(FL1, ang);
 }
 
 // Rear leg angle
 void servoLegRear(int ang){
-  int i = ang;
-  moveServo(RR1, i);
-  moveServo(RL1, i);
+  moveServo(RR1, ang);
+  moveServo(RL1, ang);
 }
 
 // Stand Up
@@ -799,7 +780,9 @@ void setServoPulse(uint8_t n, double pulse_us){
 /*************************************************** 
  you can use this function if you'd like to set the angle in degree
 ***************************************************/
-void setServoAngle(uint8_t n, uint8_t ang){
+void setServoAngle(uint8_t n, int ang){
+  if (ang < 0)   { ang = 0; }
+  if (ang > 180) { ang = 180; }
   double pulse_us = map(ang, 0, 180, minUs, maxUs); //map angle(0～180) to pulse_us
   setServoPulse(n, pulse_us);
 }
@@ -808,14 +791,16 @@ void setServoAngle(uint8_t n, uint8_t ang){
  status of charging
  **************************************************/
 void adjMode(){
+    vTaskSuspend(avatarTaskHandle);
+
     delay(300);
-    M5.Lcd.fillScreen(BLACK);
-    M5.Lcd.setTextSize(3);
-    M5.Lcd.setTextColor(WHITE, BLACK);
-    M5.Lcd.setCursor(50, 0);
-    M5.Lcd.print("HOME POSITION");
-    M5.Lcd.setCursor(50, 50);
-    M5.Lcd.printf("NES mode: %d\n", modeNES);
+    M5.Display.fillScreen(BLACK);
+    M5.Display.setTextSize(3);
+    M5.Display.setTextColor(WHITE, BLACK);
+    M5.Display.setCursor(50, 0);
+    M5.Display.print("HOME POSITION");
+    M5.Display.setCursor(50, 50);
+    M5.Display.printf("NES mode: %d\n", modeNES);
     servoHome();
 
     #ifdef DEBUG
@@ -824,39 +809,11 @@ void adjMode(){
 
     while(1){
       M5.update();
-      M5.Lcd.setCursor(10, 150);
-      if(getChargeEnable()){
-        switch(getChargeMode()){
-          case 1:
-            M5.Lcd.print("Full Charge          ");
-            break;
-          case 2:
-            M5.Lcd.print("Charging(CV mode)    ");
-            break;
-          case 3:
-            M5.Lcd.print("Charging(CC mode)    ");
-            break;
-          default:
-            M5.Lcd.print("Unknown mode         ");
-            break;
-        }
-      }else{
-        M5.Lcd.print("                     ");
-      }
-
-      uint8_t Level =  M5.Power.getBatteryLevel();
-      if(Level > 100){
-        Level = 100;
-      }else if(Level < 0){
-        Level = 0;
-      }
-      M5.Lcd.progressBar(30, 200, 260, 20, Level);
-      M5.Lcd.drawRect(29, 199, 262, 22, WHITE);
 
       if(M5.BtnB.wasPressed()){
-        M5.Lcd.fillScreen(SECONDARY_COLOR);
-//        M5.Lcd.drawJpgFile(SD, Face.c_str(), 0, 0, 320, 240);
-        avator->init();
+        M5.Display.fillScreen(SECONDARY_COLOR);
+        vTaskResume(avatarTaskHandle);
+        avatar->init();
         break;
       }
       delay(100);
