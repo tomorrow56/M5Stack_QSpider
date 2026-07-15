@@ -17,13 +17,13 @@ The 3D print data is available below. Please print four sets of parts from the '
 
 3Dプリント用のデータは以下にあります。legフォルダ以下の部品は1本分なので4個印刷してください。
 
-[STL Data](3dprint/)
+[3D Print Data](3dprint/leg/)
 
 The fully assembled main body and each leg (two types, diagonal combinations) is uploaded in STEP format. Please refer to them during assembly.
 
 組立済の本体全体・各脚(対角の組合せで2種類)はSTEP形式でアップロードしてありますので、参考にしてください。
 
-[STEP Data](3dprint/step)
+[STEP Data](3dprint/)
 
 ### M5Stack Servo Driver Module M5Stack用サーボモジュール基板
 The circuit diagram, Gerber data, and KiCad design files have been published in this repository under the `pcb/` folder.
