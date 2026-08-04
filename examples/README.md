@@ -12,6 +12,7 @@ This folder contains Arduino sketches for controlling the M5Stack Q-Spider quadr
 |---|---|
 | `M5_Spider_Webserver` | Control the robot from a web browser via WiFi. WiFi経由のWebブラウザから操作します。 |
 | `M5_Spider_esp-now` | Control the robot with a game controller using ESP-NOW communication. ESP-NOW通信でゲームコントローラから操作します。 |
+| `ESP32_ChipInfo` | Utility sketch to check the ESP32 chip info and MAC address. ESP32のチップ情報とMACアドレスを確認するユーティリティスケッチです。 |
 
 ---
 
@@ -115,14 +116,42 @@ This sketch receives control commands wirelessly from a custom ESP-NOW controlle
 ### Main Files / 主なファイル
 
 - `M5_Spider_esp-now.ino` : Main sketch / メインスケッチ
-- `clappyavator.cpp/h` : Face animation class / 顔アニメーションクラス
-- `ip5306.cpp/h` : Battery and charging status / バッテリ・充電状態
+- `avatar.cpp/h` : Face animation class / 顔アニメーションクラス
 
 For the transmitter side, see the M5AtomPad repository.
 
 送信側はM5AtomPadリポジトリを参照してください。
 
 <https://github.com/tomorrow56/M5AtomPad>
+
+When registering a controller in the `OnDataRecv` MAC filter, you can use `ESP32_ChipInfo` on each M5Stack to check its MAC address.
+
+`OnDataRecv`のMACアドレスフィルタに登録する際は、各M5Stackで`ESP32_ChipInfo`を実行してMACアドレスを確認できます。
+
+---
+
+## ESP32_ChipInfo
+
+A simple utility sketch that prints ESP32 chip information (model, features, core count, revision, flash size, and most importantly the MAC address) to the Serial Monitor.
+
+ESP32のチップ情報（モデル、機能、コア数、リビジョン、フラッシュサイズ、そして重要なMACアドレス）をシリアルモニタに出力するシンプルなユーティリティスケッチです。
+
+### Use Case / 用途
+
+Useful for checking the MAC address of an M5Stack unit before registering it as an ESP-NOW peer (see `M5_Spider_esp-now`) or before hardcoding a peer's MAC address in a controller sketch.
+
+M5StackユニットをESP-NOWのピアとして登録する前（`M5_Spider_esp-now`を参照）や、コントローラ側にピアのMACアドレスをハードコードする前に、MACアドレスを確認するのに使えます。
+
+### How to Use / 使い方
+
+1. Open `ESP32_ChipInfo.ino` in Arduino IDE.
+2. Upload the sketch to the M5Stack.
+3. Open the Serial Monitor at 115200 baud.
+4. The chip model, features, core count, revision, MAC address, flash size, and chip ID are printed once at startup.
+
+### Main Files / 主なファイル
+
+- `ESP32_ChipInfo.ino` : Main sketch / メインスケッチ
 
 ---
 

@@ -73,7 +73,7 @@ The source code for the ESP-NOW controller is available below. Here, a modified 
 
 ESP-NOW用コントローラのソースコードは以下にあります。ここではファミコン用コントローラを改造して使用しています。
 
-<https://github.com/tomorrow56/M5AtomPad>
+<https://github.com/tomorrow56/nespad-arduino>
 
 ![M5AtomPad](img/controller.jpg)
 
