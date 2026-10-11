@@ -35,7 +35,11 @@ The circuit diagram, Gerber data, and KiCad design files have been published in 
 
 Production outputs (Gerber, BOM, pick-and-place) are available in `pcb/production/`.
 
+[Production Data](pcb/production/)
+
 生産用データ（ガーバーやBOM、実装座標）も `pcb/production/` に用意しています。
+
+[生産用データ](pcb/production/)
 
 ### Parts needed (excluding 3D print parts)
 * M5Stack Basic x 1
