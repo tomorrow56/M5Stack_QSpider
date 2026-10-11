@@ -114,6 +114,22 @@ void avatarUpdate(void* arg) {
   }
 }
 
+void setMoveFlag(boolean &targetFlag) {
+  boolean commandChanged = !targetFlag;
+
+  walkFwdFlag = false;
+  walkBckFlag = false;
+  walkLeftFlag = false;
+  walkRightFlag = false;
+  spinLeftFlag = false;
+  spinRightFlag = false;
+
+  if(commandChanged == true){
+    moveFlag = false;
+  }
+  targetFlag = true;
+}
+
 // 受信コールバック
 void OnDataRecv(const esp_now_recv_info_t *recv_info, const uint8_t *data, int data_len) {
   const uint8_t *mac_addr = recv_info->src_addr;
@@ -128,17 +144,17 @@ void OnDataRecv(const esp_now_recv_info_t *recv_info, const uint8_t *data, int d
   }
   Serial.println("");
 
-// 送信元でフィルタ(ESP-NOW送信機のMACアドレスを指定)
+// 送信元でフィルタ(ESP-NOW送信機のMACアドレスに合わせて修正)
   if((String)macStr == "4C:75:25:C6:F8:0C" || (String)macStr == "D8:A0:1D:5B:D1:AC"){
     if(data[0] == rNES_A){
       Serial.println("NES_A");
-      spinRightFlag = true;
+      setMoveFlag(spinRightFlag);
       #ifdef DEBUG
         Serial.println("Spin Right");
       #endif
     }else if(data[0] == rNES_B){
       Serial.println("NES_B");
-      spinLeftFlag = true;
+      setMoveFlag(spinLeftFlag);
       #ifdef DEBUG
         Serial.println("Spin Left");
       #endif
@@ -148,25 +164,25 @@ void OnDataRecv(const esp_now_recv_info_t *recv_info, const uint8_t *data, int d
       Serial.println("NES_START");
     }else if(data[0] == rNES_UP){
       Serial.println("NES_UP");
-      walkFwdFlag = true;
+      setMoveFlag(walkFwdFlag);
       #ifdef DEBUG
         Serial.println("Walk Forward");
       #endif
     }else if(data[0] == rNES_DOWN){
       Serial.println("NES_DOWN");
-      walkBckFlag = true;
+      setMoveFlag(walkBckFlag);
       #ifdef DEBUG
         Serial.println("Walk Backward");
       #endif
     }else if(data[0] == rNES_LEFT){
       Serial.println("NES_LEFT");
-      walkLeftFlag = true;
+      setMoveFlag(walkLeftFlag);
       #ifdef DEBUG
         Serial.println("Walk Left");
       #endif
     }else if(data[0] == rNES_RIGHT){
       Serial.println("NES_RIGHT");
-      walkRightFlag = true;
+      setMoveFlag(walkRightFlag);
       #ifdef DEBUG
         Serial.println("Walk Right");
       #endif

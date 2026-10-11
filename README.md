@@ -39,7 +39,7 @@ Production outputs (Gerber, BOM, pick-and-place) are available in `pcb/productio
 ### Parts needed (excluding 3D print parts)
 * M5Stack Basic x 1
 * [SG-90](https://akizukidenshi.com/catalog/g/gM-08761/) X 9
-* [M5Stack Servo Driver Module](https://github.com/tomorrow56/M5Stack_Servo_Driver) (PCA9685 based servo controller board) x 1
+* [M5Stack Servo Driver Module](pcb/M5_PCA9685_v03/) (PCA9685 based servo controller board) x 1
 * [Battery Holder for 4x AA](https://akizukidenshi.com/catalog/g/gP-03087/) (For servo power)
 * [Pololu S9V11F5](https://www.pololu.com/product/2865) (Step-up/step-down voltage regulator, generates 5V for M5Stack from AA battery)
 * [Slide Switch 1 Circuit 2 Contacts](https://akizukidenshi.com/catalog/g/gP-15707/)
@@ -49,7 +49,7 @@ Production outputs (Gerber, BOM, pick-and-place) are available in `pcb/productio
 ### 必要な部品 (3Dプリント部品以外)
 * M5Stack Basic x 1
 * [SG-90](https://akizukidenshi.com/catalog/g/gM-08761/) X 9
-* [M5Stack用サーボモジュール基板](https://github.com/tomorrow56/M5Stack_Servo_Driver) (PCA9685搭載サーボコントローラ基板) x 1
+* [M5Stack用サーボモジュール基板](pcb/M5_PCA9685_v03/) (PCA9685搭載サーボコントローラ基板) x 1
 * [電池ボックス単4×4本](https://akizukidenshi.com/catalog/g/gP-03087/) (サーボ電源用)
 * [Pololu S9V11F5](https://www.pololu.com/product/2865) (昇降圧型電圧レギュレータ、単4電池からM5Stack用5Vを生成)
 * [スライドスイッチ 1回路2接点](https://akizukidenshi.com/catalog/g/gP-15707/)
