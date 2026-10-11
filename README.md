@@ -42,9 +42,10 @@ Production outputs (Gerber, BOM, pick-and-place) are available in `pcb/productio
 * [M5Stack Servo Driver Module](pcb/M5_PCA9685_v03/) (PCA9685 based servo controller board) x 1
 * [Battery Holder for 4x AA](https://akizukidenshi.com/catalog/g/gP-03087/) (For servo power)
 * [Pololu S9V11F5](https://www.pololu.com/product/2865) (Step-up/step-down voltage regulator, generates 5V for M5Stack from AA battery)
-* [Slide Switch 1 Circuit 2 Contacts](https://akizukidenshi.com/catalog/g/gP-15707/)
 * M2x8mm Tapping Screws (Approximately 40)
-* Wiring Lead for connections
+* [Wiring Lead, Red/Black](https://akizukidenshi.com/catalog/g/g131311/)
+* [Connector Housing 2P](https://akizukidenshi.com/catalog/g/g112151/)
+* [Double-sided Adhesive Gel Tape](https://jp.daisonet.com/products/4550480578279) (For fixing servo bottom_Spacer)
 
 ### 必要な部品 (3Dプリント部品以外)
 * M5Stack Basic x 1
@@ -52,9 +53,10 @@ Production outputs (Gerber, BOM, pick-and-place) are available in `pcb/productio
 * [M5Stack用サーボモジュール基板](pcb/M5_PCA9685_v03/) (PCA9685搭載サーボコントローラ基板) x 1
 * [電池ボックス単4×4本](https://akizukidenshi.com/catalog/g/gP-03087/) (サーボ電源用)
 * [Pololu S9V11F5](https://www.pololu.com/product/2865) (昇降圧型電圧レギュレータ、単4電池からM5Stack用5Vを生成)
-* [スライドスイッチ 1回路2接点](https://akizukidenshi.com/catalog/g/gP-15707/)
 * M2x8mmのタッピングビス(約40本)
-* 配線用リード線
+* [配線用リード線 赤・黒](https://akizukidenshi.com/catalog/g/g131311/)
+* [コネクター用ハウジング 2P](https://akizukidenshi.com/catalog/g/g112151/)
+* [両面粘着ゲルテープ](https://jp.daisonet.com/products/4550480578279) (サーボ bottom_Spacer 固定用)
 
 ## ソフトウエア: Software
 There are sketches for ArduinoIDE in the 'examples' folder. There are two types available for web interface and ESP-NOW.
