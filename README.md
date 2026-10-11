@@ -48,6 +48,7 @@ Production outputs (Gerber, BOM, pick-and-place) are available in `pcb/productio
   * Please refer to `pcb/production` for implementation data.
 * [Battery Holder for 4x AA](https://akizukidenshi.com/catalog/g/gP-03087/) (For servo power)
 * [Pololu S9V11F5](https://www.pololu.com/product/2865) (Step-up/step-down voltage regulator, generates 5V for M5Stack from AA battery)
+  * [Switch-Sciense S9V11F5](https://www.switch-science.com/products/3246)
 * M2x8mm Tapping Screws (Approximately 40)
 * [Wiring Lead, Red/Black](https://akizukidenshi.com/catalog/g/g131311/)
 * [Connector Housing 2P](https://akizukidenshi.com/catalog/g/g112151/)
@@ -60,6 +61,7 @@ Production outputs (Gerber, BOM, pick-and-place) are available in `pcb/productio
   * 実装は `pcb/production` の内容を参考にしてください
 * [電池ボックス単4×4本](https://akizukidenshi.com/catalog/g/gP-03087/) (サーボ電源用)
 * [Pololu S9V11F5](https://www.pololu.com/product/2865) (昇降圧型電圧レギュレータ、単4電池からM5Stack用5Vを生成)
+  * [Switch-Sciense S9V11F5](https://www.switch-science.com/products/3246)
 * M2x8mmのタッピングビス(約40本)
 * [配線用リード線 赤・黒](https://akizukidenshi.com/catalog/g/g131311/)
 * [コネクター用ハウジング 2P](https://akizukidenshi.com/catalog/g/g112151/)
