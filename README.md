@@ -25,7 +25,8 @@ The fully assembled main body and each leg (two types, diagonal combinations) is
 
 [STEP Data](3dprint/)
 
-### M5Stack Servo Driver Module M5Stack用サーボモジュール基板
+### M5Stack Servo Driver Module
+### M5Stack用サーボモジュール基板
 The circuit diagram, Gerber data, and KiCad design files have been published in this repository under the `pcb/` folder.
 
 回路図、ガーバーデータ、KiCadの設計データは本リポジトリの `pcb/` フォルダ以下で公開しています。
@@ -40,6 +41,7 @@ Production outputs (Gerber, BOM, pick-and-place) are available in `pcb/productio
 * M5Stack Basic x 1
 * [SG-90](https://akizukidenshi.com/catalog/g/gM-08761/) X 9
 * [M5Stack Servo Driver Module](pcb/M5_PCA9685_v03/) (PCA9685 based servo controller board) x 1
+  * Please refer to `pcb/production` for implementation data.
 * [Battery Holder for 4x AA](https://akizukidenshi.com/catalog/g/gP-03087/) (For servo power)
 * [Pololu S9V11F5](https://www.pololu.com/product/2865) (Step-up/step-down voltage regulator, generates 5V for M5Stack from AA battery)
 * M2x8mm Tapping Screws (Approximately 40)
@@ -51,6 +53,7 @@ Production outputs (Gerber, BOM, pick-and-place) are available in `pcb/productio
 * M5Stack Basic x 1
 * [SG-90](https://akizukidenshi.com/catalog/g/gM-08761/) X 9
 * [M5Stack用サーボモジュール基板](pcb/M5_PCA9685_v03/) (PCA9685搭載サーボコントローラ基板) x 1
+  * 実装は `pcb/production` の内容を参考にしてください
 * [電池ボックス単4×4本](https://akizukidenshi.com/catalog/g/gP-03087/) (サーボ電源用)
 * [Pololu S9V11F5](https://www.pololu.com/product/2865) (昇降圧型電圧レギュレータ、単4電池からM5Stack用5Vを生成)
 * M2x8mmのタッピングビス(約40本)
