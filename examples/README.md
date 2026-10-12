@@ -21,10 +21,16 @@ This folder contains Arduino sketches for controlling the M5Stack Q-Spider quadr
 - **M5Stack Basic** (ESP32 based)
 - **SG-90** or compatible 9g servos × 9
 - **PCA9685** servo driver module (I2C address: `0x72`)
-- Arduino IDE with the following libraries / 以下のライブラリが必要です:
+- Arduino IDE with the following libraries:
   - `M5Stack` / `M5Unified`
   - `Adafruit PWM Servo Driver Library` (for PCA9685)
   - `M5StackUpdater`
+
+以下のライブラリをインストールしたArduino IDEが必要です。
+
+- `M5Stack` / `M5Unified`
+- `Adafruit PWM Servo Driver Library`（PCA9685用）
+- `M5StackUpdater`
 
 The servo channel assignment is common across all sketches.
 
@@ -46,34 +52,63 @@ The servo channel assignment is common across all sketches.
 
 ## M5_Spider_Webserver
 
-This sketch starts the M5Stack as a WiFi access point or connects to an existing access point, and serves a simple web controller on port 80.
+By default, this sketch starts the M5Stack as a standalone WiFi access point and serves a simple web controller on port 80.
 
-このスケッチは、M5StackをWiFiアクセスポイントとして起動するか、既存のアクセスポイントに接続して、ポート80で簡易Webコントローラを提供します。
+このスケッチは、デフォルトではM5Stackを独立したWiFiアクセスポイントとして起動し、ポート80で簡易Webコントローラを提供します。
 
 ### Features / 機能
 
-- WiFi setup via `WiFiManager` (captive portal)
-- OTA (Over The Air) firmware update support
+- Standalone WiFi access point mode by default
+- Optional WiFi setup via `WiFiManager` (captive portal)
+- OTA (Over The Air) firmware updates in WiFiManager mode
 - Web UI with buttons for forward, backward, left/right shift, spin, and stop
 - Face animation (eye blink, mouth open) on the M5Stack LCD
-- LINE Notify message on successful WiFi connection
 - Calibration mode (`adjMode`) triggered when powered on while charging
+
+- デフォルトで独立WiFiアクセスポイントとして動作
+- `WiFiManager`（キャプティブポータル）によるWiFi設定も選択可能
+- WiFiManagerモードではOTAによるファームウェア更新に対応
+- 前進、後退、左右移動、旋回、停止を操作できるWeb UI
+- M5Stack LCDで目や口の顔アニメーションを表示
+- 充電中に電源を入れるとキャリブレーションモード（`adjMode`）を開始
+
+### WiFi Mode / WiFiモード
+
+`usesoftAP` is defined by default near the top of `M5_Spider_Webserver.ino`. In this mode, the M5Stack creates an access point named `ESP32-xxxx` with the password `esp32`. Connect directly to it and open `http://192.168.4.1/`.
+
+`M5_Spider_Webserver.ino`の先頭付近では、デフォルトで`usesoftAP`が定義されています。このモードでは、M5Stackが`ESP32-xxxx`という名前、パスワード`esp32`のアクセスポイントを作成します。直接接続し、`http://192.168.4.1/`を開いてください。
+
+To connect the M5Stack to an existing WiFi access point instead, comment out `#define usesoftAP`. The sketch then uses the WiFiManager portal for network configuration and enables OTA updates.
+
+既存のWiFiアクセスポイントへM5Stackを接続する場合は、`#define usesoftAP`をコメントアウトしてください。その場合はWiFiManagerの設定ポータルを使用し、OTA更新も有効になります。
 
 ### How to Use / 使い方
 
 1. Open `M5_Spider_Webserver.ino` in Arduino IDE.
-2. Select `M5Stack-Core-ESP32` board.
-3. Update the LINE Notify token (`token`) if you want IP notifications.
+2. Select the `M5Stack-Core-ESP32` board.
+3. Keep `#define usesoftAP` enabled for standalone AP mode, or comment it out for WiFiManager mode.
 4. Upload the sketch to M5Stack.
-5. Connect to the displayed AP name or configure via WiFiManager portal.
+5. Connect to the AP name displayed on the LCD.
 6. Open the IP address shown on the LCD with a browser.
+
+1. Arduino IDEで`M5_Spider_Webserver.ino`を開きます。
+2. `M5Stack-Core-ESP32`ボードを選択します。
+3. 独立APモードでは`#define usesoftAP`を有効のままにし、WiFiManagerモードではコメントアウトします。
+4. スケッチをM5Stackへ書き込みます。
+5. LCDに表示されたアクセスポイント名へ接続します。
+6. LCDに表示されたIPアドレスをブラウザで開きます。
 
 ### Main Files / 主なファイル
 
-- `M5_Spider_Webserver.ino` : Main sketch / メインスケッチ
-- `WebPage.h` : HTML for the web controller / WebコントローラのHTML
-- `wifi_setup.cpp/h` : WiFi connection helper and OTA setup / WiFi接続とOTAのヘルパー
-- `avatar.cpp/h` : Face animation class / 顔アニメーションクラス
+- `M5_Spider_Webserver.ino`: Main sketch
+- `WebPage.h`: HTML for the web controller
+- `wifi_setup.cpp/h`: WiFi connection helper and OTA setup
+- `avatar.cpp/h`: Face animation class
+
+- `M5_Spider_Webserver.ino`: メインスケッチ
+- `WebPage.h`: WebコントローラのHTML
+- `wifi_setup.cpp/h`: WiFi接続とOTAのヘルパー
+- `avatar.cpp/h`: 顔アニメーションクラス
 
 ---
 
@@ -91,6 +126,13 @@ This sketch receives control commands wirelessly from a custom ESP-NOW controlle
 - FreeRTOS face animation task on Core 0
 - Two machine presets (`modeNES = 1` for SpiderW, `modeNES = 2` for SpiderB) for per-unit calibration
 - Calibration mode triggered by charging detection (define `chgDET` to enable)
+
+- ESP-NOWによるピアツーピア通信
+- NES（ファミコン）形式のゲームパッド入力に対応
+- フラグ制御による連続歩行・旋回
+- Core 0で動作するFreeRTOS顔アニメーションタスク
+- 個体調整用の2種類のプリセット（SpiderWは`modeNES = 1`、SpiderBは`modeNES = 2`）
+- 充電検出で開始するキャリブレーションモード（`chgDET`の定義で有効化）
 
 ### Controller Button Mapping / コントローラのボタン割り当て
 
@@ -113,10 +155,19 @@ This sketch receives control commands wirelessly from a custom ESP-NOW controlle
 4. Upload the sketch to M5Stack.
 5. Power on the ESP-NOW controller and gamepad.
 
+1. Arduino IDEで`M5_Spider_esp-now.ino`を開きます。
+2. ロボットの個体に合わせて`modeNES`を1または2に設定します。
+3. コントローラのMACアドレスが`OnDataRecv`フィルタに登録されていることを確認します。
+4. スケッチをM5Stackへ書き込みます。
+5. ESP-NOWコントローラとゲームパッドの電源を入れます。
+
 ### Main Files / 主なファイル
 
-- `M5_Spider_esp-now.ino` : Main sketch / メインスケッチ
-- `avatar.cpp/h` : Face animation class / 顔アニメーションクラス
+- `M5_Spider_esp-now.ino`: Main sketch
+- `avatar.cpp/h`: Face animation class
+
+- `M5_Spider_esp-now.ino`: メインスケッチ
+- `avatar.cpp/h`: 顔アニメーションクラス
 
 For the transmitter side, see the M5AtomPad repository.
 
@@ -149,9 +200,16 @@ M5StackユニットをESP-NOWのピアとして登録する前（`M5_Spider_esp-
 3. Open the Serial Monitor at 115200 baud.
 4. The chip model, features, core count, revision, MAC address, flash size, and chip ID are printed once at startup.
 
+1. Arduino IDEで`ESP32_ChipInfo.ino`を開きます。
+2. スケッチをM5Stackへ書き込みます。
+3. シリアルモニタを115200 baudで開きます。
+4. 起動時にチップモデル、機能、コア数、リビジョン、MACアドレス、フラッシュサイズ、チップIDが一度出力されます。
+
 ### Main Files / 主なファイル
 
-- `ESP32_ChipInfo.ino` : Main sketch / メインスケッチ
+- `ESP32_ChipInfo.ino`: Main sketch
+
+- `ESP32_ChipInfo.ino`: メインスケッチ
 
 ---
 
@@ -163,6 +221,9 @@ All sketches provide a calibration mode that moves every servo to its center pos
 
 - **Web versions**: Enter calibration mode automatically when powered on while M5Stack is charging.
 - **ESP-NOW version**: Define `chgDET` at the top of the sketch to enable the same behavior.
+
+- **Web版**：M5Stackの充電中に電源を入れると、自動的にキャリブレーションモードへ移行します。
+- **ESP-NOW版**：スケッチ先頭で`chgDET`を定義すると、同じ動作が有効になります。
 
 | Sketch | Calibration Trigger / トリガ |
 |---|---|

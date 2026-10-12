@@ -5,7 +5,7 @@
 
 #include "avatar.h"
 
-//#define usesoftAP
+#define usesoftAP
 
 #ifndef usesoftAP
   #define useOTA
